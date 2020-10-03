@@ -6,7 +6,7 @@ class User < ApplicationRecord
 
   belongs_to :organization
   has_many :boards
-
+  has_many :subscriptions
 
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|

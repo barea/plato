@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Organization:</strong>
+  <%= @subscription.organization_id %>
+</p>
+
+<p>
+  <strong>Plan:</strong>
+  <%= @subscription.plan_id %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @subscription.status %>
+</p>
+
+<p>
+  <strong>Frequancey:</strong>
+  <%= @subscription.frequancey %>
+</p>
+
+<p>
+  <strong>Num of board:</strong>
+  <%= @subscription.num_of_board %>
+</p>
+
+<p>
+  <strong>Num of seat:</strong>
+  <%= @subscription.num_of_seat %>
+</p>
+
+<%= link_to 'Edit', edit_subscription_path(@subscription) %> |
+<%= link_to 'Back', subscriptions_path %>

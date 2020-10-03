@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  active: false
+  licence_seats_num: 1
+  licence_boards_num: 1
+  monthly_licence_price: 1.5
+  annual_licence_price: 1.5
+  monthly_seat_price: 1.5
+  monthly_board_price: 1.5
+
+two:
+  name: MyString
+  active: false
+  licence_seats_num: 1
+  licence_boards_num: 1
+  monthly_licence_price: 1.5
+  annual_licence_price: 1.5
+  monthly_seat_price: 1.5
+  monthly_board_price: 1.5

@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :subscriptions
+  resources :plans
   resources :tasks
   resources :cards
   resources :boards
