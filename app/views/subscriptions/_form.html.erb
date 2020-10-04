@@ -2,7 +2,6 @@
   <% if subscription.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(subscription.errors.count, "error") %> prohibited this subscription from being saved:</h2>
-
       <ul>
         <% subscription.errors.full_messages.each do |message| %>
           <li><%= message %></li>
@@ -10,37 +9,33 @@
       </ul>
     </div>
   <% end %>
-
   <div class="field">
     <%= form.label :organization_id %>
     <%= form.number_field :organization_id %>
   </div>
-
   <div class="field">
     <%= form.label :plan_id %>
-    <%= form.number_field :plan_id %>
+    <%= form.hidden_field :plan_id, value: params[:plan_id] %>
   </div>
-
   <div class="field">
-    <%= form.label :status %>
-    <%= form.text_field :status %>
+    <%= form.label :active %>
+    <%= form.check_box :active %>
   </div>
-
   <div class="field">
     <%= form.label :frequancey %>
     <%= form.text_field :frequancey %>
   </div>
-
-  <div class="field">
-    <%= form.label :num_of_board %>
-    <%= form.number_field :num_of_board %>
-  </div>
-
-  <div class="field">
-    <%= form.label :num_of_seat %>
-    <%= form.number_field :num_of_seat %>
-  </div>
-
+  <% if current_user.organization_id == ""%>
+    <div class="field">
+      <%= form.label :num_of_board %>
+      <%= form.number_field :num_of_board %>
+    </div>
+  <% else %>
+    <div class="field">
+      <%= form.label :num_of_seat %>
+      <%= form.number_field :num_of_seat %>
+    </div>
+  <%end%>
   <div class="actions">
     <%= form.submit %>
   </div>

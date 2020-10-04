@@ -25,6 +25,8 @@ class SubscriptionsController < ApplicationController
   # POST /subscriptions.json
   def create
     @subscription = Subscription.new(subscription_params)
+    user_id = current_user.id
+    organization_id = current_user.organization_id
 
     respond_to do |format|
       if @subscription.save
@@ -62,13 +64,13 @@ class SubscriptionsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_subscription
-      @subscription = Subscription.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_subscription
+    @subscription = Subscription.find(params[:id])
+  end
 
-    # Only allow a list of trusted parameters through.
-    def subscription_params
-      params.require(:subscription).permit(:organization_id, :plan_id, :status, :frequancey, :num_of_board, :num_of_seat)
-    end
+  # Only allow a list of trusted parameters through.
+  def subscription_params
+    params.require(:subscription).permit(:organization_id, :plan_id, :status, :frequancey, :num_of_board, :num_of_seat)
+  end
 end
