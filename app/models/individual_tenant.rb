@@ -1,0 +1,2 @@
+class IndividualTenant < Tenant
+end

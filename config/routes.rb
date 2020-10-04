@@ -1,13 +1,12 @@
 Rails.application.routes.draw do
+  resources :tenants
   resources :subscriptions
   resources :plans
   resources :tasks
   resources :cards
   resources :boards
   resources :organizations
-  devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
+  devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks', registrations: 'users/registrations'}
 
-  root to: 'boards#index'
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
-
+  root to: 'home#index'
 end
