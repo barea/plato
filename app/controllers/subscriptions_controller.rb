@@ -10,7 +10,11 @@ class SubscriptionsController < ApplicationController
   # GET /subscriptions/1
   # GET /subscriptions/1.json
   def show
+
   end
+
+
+
 
   # GET /subscriptions/new
   def new
@@ -21,16 +25,34 @@ class SubscriptionsController < ApplicationController
   def edit
   end
 
+
+
   # POST /subscriptions
   # POST /subscriptions.json
   def create
-    @subscription = Subscription.new(subscription_params)
-    user_id = current_user.id
-    organization_id = current_user.organization_id
+
+    if subscription_params[:plan_id] == '2'
+
+      @subscription = Subscription.new(subscription_params)
+      it = IndividualTenant.new(user_id: current_user.id)
+      it.save!
+      @subscription.tenant_id = it.id
+      @subscription.active = true
+
+    else
+
+      @subscription = Subscription.new(subscription_params)
+      org = Organization.new(params.require(:subscription).permit(:name))
+      org.save!
+      ot = OrgnaizationTenant.new(user_id: current_user.id, organization_id: org.id)
+      ot.save!
+      @subscription.tenant_id = ot.id
+
+    end
 
     respond_to do |format|
       if @subscription.save
-        format.html { redirect_to @subscription, notice: 'Subscription was successfully created.' }
+        format.html { redirect_to root_path, notice: 'Subscription was successfully created.' }
         format.json { render :show, status: :created, location: @subscription }
       else
         format.html { render :new }
@@ -71,6 +93,8 @@ class SubscriptionsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def subscription_params
-    params.require(:subscription).permit(:organization_id, :plan_id, :status, :frequancey, :num_of_board, :num_of_seat)
+    params.require(:subscription).permit(:plan_id, :active, :frequancey, :num_of_board, :num_of_seat, :tenant_id)
   end
+
+
 end

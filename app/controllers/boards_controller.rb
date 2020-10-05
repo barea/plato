@@ -4,7 +4,7 @@ class BoardsController < ApplicationController
   # GET /boards
   # GET /boards.json
   def index
-    @boards = Board.where(user_id: current_user.id ).or(Board.where(organization_id: current_user.organization_id))
+    @boards = Board.all
   end
 
   # GET /boards/1
@@ -30,7 +30,7 @@ class BoardsController < ApplicationController
 
     respond_to do |format|
       if @board.save
-        format.html { redirect_to @board, notice: 'Board was successfully created.' }
+        format.html { redirect_to root_path, notice: 'Board was successfully created.' }
         format.json { render :show, status: :created, location: @board }
       else
         format.html { render :new }

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_04_095430) do
+ActiveRecord::Schema.define(version: 2020_10_05_071325) do
 
   create_table "boards", force: :cascade do |t|
     t.string "name"
@@ -45,18 +45,18 @@ ActiveRecord::Schema.define(version: 2020_10_04_095430) do
     t.float "monthly_board_price"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "kind"
   end
 
   create_table "subscriptions", force: :cascade do |t|
-    t.integer "organization_id"
     t.integer "plan_id"
     t.string "frequancey"
     t.integer "num_of_board"
     t.integer "num_of_seat"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "user_id"
     t.boolean "active"
+    t.integer "tenant_id"
   end
 
   create_table "tasks", force: :cascade do |t|

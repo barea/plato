@@ -62,13 +62,13 @@ class PlansController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_plan
-      @plan = Plan.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_plan
+    @plan = Plan.find(params[:id])
+  end
 
-    # Only allow a list of trusted parameters through.
-    def plan_params
-      params.require(:plan).permit(:name, :active, :licence_seats_num, :licence_boards_num, :monthly_licence_price, :annual_licence_price, :monthly_seat_price, :monthly_board_price)
-    end
+  # Only allow a list of trusted parameters through.
+  def plan_params
+    params.require(:plan).permit(:name, :kind, :active, :licence_seats_num, :licence_boards_num, :monthly_licence_price, :annual_licence_price, :monthly_seat_price, :monthly_board_price)
+  end
 end

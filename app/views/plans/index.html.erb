@@ -4,6 +4,7 @@
   <thead>
     <tr>
       <th>Name</th>
+      <th>Kind</th>
       <th>Active</th>
       <th>Licence seats num</th>
       <th>Licence boards num</th>
@@ -18,6 +19,7 @@
     <% @plans.each do |plan| %>
       <tr>
         <td><%= plan.name %></td>
+        <td><%= plan.kind%></td>
         <td><%= plan.active %></td>
         <td><%= plan.licence_seats_num %></td>
         <td><%= plan.licence_boards_num %></td>

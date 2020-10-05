@@ -10,32 +10,18 @@
     </div>
   <% end %>
   <div class="field">
-    <%= form.label :organization_id %>
-    <%= form.number_field :organization_id %>
-  </div>
-  <div class="field">
-    <%= form.label :plan_id %>
     <%= form.hidden_field :plan_id, value: params[:plan_id] %>
   </div>
   <div class="field">
-    <%= form.label :active %>
-    <%= form.check_box :active %>
-  </div>
-  <div class="field">
     <%= form.label :frequancey %>
-    <%= form.text_field :frequancey %>
+    <%= form.select :frequancey, [ 'monthly','annually'], :prompt => 'Select One' %>
   </div>
-  <% if current_user.organization_id == ""%>
+  <% unless params[:plan_id] == '2' %>
     <div class="field">
-      <%= form.label :num_of_board %>
-      <%= form.number_field :num_of_board %>
+      <%= form.label :organization %>
+      <%= form.text_field :name %>
     </div>
-  <% else %>
-    <div class="field">
-      <%= form.label :num_of_seat %>
-      <%= form.number_field :num_of_seat %>
-    </div>
-  <%end%>
+  <% end %>
   <div class="actions">
     <%= form.submit %>
   </div>

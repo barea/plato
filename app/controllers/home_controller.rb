@@ -6,7 +6,13 @@ class HomeController < ApplicationController
   end
 
   def check_user
-    redirect_to plans_path unless current_user.tenant.present?
+
+    if current_user.tenant.present?
+      redirect_to boards_path
+
+    else
+      redirect_to plans_path
+    end
   end
 
 end
