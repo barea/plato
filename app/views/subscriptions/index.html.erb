@@ -5,7 +5,7 @@
     <tr>
       <th>Organization</th>
       <th>Plan</th>
-      <th>Active</th>
+      <th>Status</th>
       <th>Frequancey</th>
       <th>Num of board</th>
       <th>Num of seat</th>
@@ -15,16 +15,15 @@
   <tbody>
     <% @subscriptions.each do |subscription| %>
       <tr>
-        <td><%= subscription.tenant.user.name %></td>
+        <td><%= subscription.user.organization %></td>
         <td><%= subscription.plan_id %></td>
-        <td><%= subscription.active %></td>
+        <td><%= subscription.status %></td>
         <td><%= subscription.frequancey %></td>
         <td><%= subscription.num_of_board %></td>
         <td><%= subscription.num_of_seat %></td>
         <td><%= link_to 'Show', subscription %></td>
         <td><%= link_to 'Edit', edit_subscription_path(subscription) %></td>
         <td><%= link_to 'Destroy', subscription, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-        <%= @total %>
       </tr>
     <% end %>
   </tbody>

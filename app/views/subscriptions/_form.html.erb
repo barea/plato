@@ -10,16 +10,17 @@
     </div>
   <% end %>
   <div class="field">
-    <%= form.hidden_field :plan_id, value: params[:plan_id] %>
+    <%= form.hidden_field :plan_id, value: @plan.id %>
+    <%= form.hidden_field :plan_require_org, value: @plan.require_org %>
   </div>
   <div class="field">
-    <%= form.label :frequancey %>
-    <%= form.select :frequancey, [ 'monthly','annually'], :prompt => 'Select One' %>
+    <%= form.label :billing_frequancey %>
+    <%= form.select :frequancey, Subscription::FREQUENCY, :prompt => 'Select One' %>
   </div>
-  <% unless params[:plan_id] == '2' %>
+  <% if @plan.require_org %>
     <div class="field">
       <%= form.label :organization %>
-      <%= form.text_field :name %>
+      <%= form.text_field :org_name %>
     </div>
   <% end %>
   <div class="actions">

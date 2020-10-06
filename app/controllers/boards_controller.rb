@@ -25,8 +25,7 @@ class BoardsController < ApplicationController
   # POST /boards.json
   def create
     @board = Board.new(board_params)
-    @board.user_id = current_user.id
-    @board.organization_id = current_user.organization_id
+    # Subscription.update()
 
     respond_to do |format|
       if @board.save

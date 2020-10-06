@@ -14,6 +14,19 @@ class Users::RegistrationsController < Devise::RegistrationsController
   #   super
   # end
 
+  before_action :configure_permitted_parameters
+
+  def create
+    params[:user] = params[:user]&.merge(type: 'IndividualTenant')
+    super
+  end
+
+  protected
+
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.permit(:sign_up, keys: %i[type])
+  end
+
   # GET /resource/edit
   # def edit
   #   super

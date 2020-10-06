@@ -16,3 +16,14 @@
   *= require_tree .
   *= require_self
  */
+table, th, td {
+  border: 1px solid black;
+}
+
+
+th {
+  display: table-cell;
+  vertical-align: inherit;
+  font-weight: bold !important;
+  text-align: center;
+}

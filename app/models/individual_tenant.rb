@@ -1,2 +1,2 @@
-class IndividualTenant < Tenant
+class IndividualTenant < User
 end

@@ -3,15 +3,13 @@
 <table>
   <thead>
     <tr>
-      <th>Name</th>
-      <th>Kind</th>
-      <th>Active</th>
-      <th>Licence seats num</th>
-      <th>Licence boards num</th>
-      <th>Monthly licence price</th>
-      <th>Annual licence price</th>
-      <th>Monthly seat price</th>
-      <th>Monthly board price</th>
+      <th>Plan Name</th>
+      <th>Allowed Users</th>
+      <th>Allowed Boards</th>
+      <th>Monthly Price</th>
+      <th>Annualtly Price</th>
+      <th>Per Seat Price</th>
+      <th>Per Board Price</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -19,21 +17,14 @@
     <% @plans.each do |plan| %>
       <tr>
         <td><%= plan.name %></td>
-        <td><%= plan.kind%></td>
-        <td><%= plan.active %></td>
-        <td><%= plan.licence_seats_num %></td>
-        <td><%= plan.licence_boards_num %></td>
-        <td><%= plan.monthly_licence_price %></td>
-        <td><%= plan.annual_licence_price %></td>
-        <td><%= plan.monthly_seat_price %></td>
-        <td><%= plan.monthly_board_price %></td>
-        <td><%= link_to 'Show', plan %></td>
-        <td><%= link_to 'Edit', edit_plan_path(plan) %></td>
-        <td><%= link_to 'Destroy', plan, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-        <td><%= link_to 'Subscrip', new_subscription_path(plan_id: plan.id)%></td>
+        <td><%= plan.licence_seats_num || 'Unlimited' %></td>
+        <td><%= plan.licence_boards_num || 'Unlimited' %></td>
+        <td><%= (plan.monthly_licence_price || 'NA').to_s.prepend('$') %></td>
+        <td><%= (plan.annual_licence_price || 'NA').to_s.prepend('$') %></td>
+        <td><%= (plan.monthly_seat_price || 'NA').to_s.prepend('$') %></td>
+        <td><%= (plan.monthly_board_price || 'NA').to_s.prepend('$') %></td>
+        <td><%= link_to 'Subscribe', new_subscription_path(plan_id: plan.id)%></td>
       </tr>
     <% end %>
   </tbody>
 </table>
-<br>
-<%= link_to 'New Plan', new_plan_path %>

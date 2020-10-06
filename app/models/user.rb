@@ -6,11 +6,19 @@ class User < ApplicationRecord
 
   belongs_to :organization, optional: true
   has_many :boards
-  has_many :subscriptions
-  has_one :tenant
+  has_one :subscription
+
+  def individual?
+    type == 'IndividualTenant'
+  end
+
+  def orgnaization?
+    type == 'OrgnaizationTenant'
+  end
+
 
   def self.from_omniauth(auth)
-    where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
+    where(provider: auth.provider, uid: auth.uid).first_or_create! do |user|
       user.email = auth.info.email
       user.name = auth.info.name
       user.password = Devise.friendly_token[0, 20]

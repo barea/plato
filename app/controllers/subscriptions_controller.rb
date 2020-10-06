@@ -10,7 +10,6 @@ class SubscriptionsController < ApplicationController
   # GET /subscriptions/1
   # GET /subscriptions/1.json
   def show
-
   end
 
 
@@ -19,6 +18,7 @@ class SubscriptionsController < ApplicationController
   # GET /subscriptions/new
   def new
     @subscription = Subscription.new
+    @plan = Plan.find(params[:plan_id])
   end
 
   # GET /subscriptions/1/edit
@@ -30,32 +30,17 @@ class SubscriptionsController < ApplicationController
   # POST /subscriptions
   # POST /subscriptions.json
   def create
-
-    if subscription_params[:plan_id] == '2'
-
-      @subscription = Subscription.new(subscription_params)
-      it = IndividualTenant.new(user_id: current_user.id)
-      it.save!
-      @subscription.tenant_id = it.id
-      @subscription.active = true
-
-    else
-
-      @subscription = Subscription.new(subscription_params)
-      org = Organization.new(params.require(:subscription).permit(:name))
-      org.save!
-      ot = OrgnaizationTenant.new(user_id: current_user.id, organization_id: org.id)
-      ot.save!
-      @subscription.tenant_id = ot.id
-
-    end
+    @subscription = Subscription.new(subscription_params)
+    current_user.update(type: 'OrgnaizationTenant', organization_id: Organization.create(name: org_name).id) if require_org?
+    @subscription.user_id = current_user.id
+    @subscription.status = 'active'
 
     respond_to do |format|
       if @subscription.save
         format.html { redirect_to root_path, notice: 'Subscription was successfully created.' }
         format.json { render :show, status: :created, location: @subscription }
       else
-        format.html { render :new }
+        format.html { redirect_to plans_path, notice: 'Fail to Subscribe' }
         format.json { render json: @subscription.errors, status: :unprocessable_entity }
       end
     end
@@ -93,7 +78,15 @@ class SubscriptionsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def subscription_params
-    params.require(:subscription).permit(:plan_id, :active, :frequancey, :num_of_board, :num_of_seat, :tenant_id)
+    params.require(:subscription).permit(:plan_id, :status, :user_id, :num_of_board, :num_of_seat, :frequancey)
+  end
+
+  def require_org?
+    params.require(:subscription).permit(:plan_require_org)[:plan_require_org] == 'true'
+  end
+
+  def org_name
+    params.require(:subscription).permit(:org_name)[:org_name]
   end
 
 
