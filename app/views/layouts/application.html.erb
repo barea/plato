@@ -9,6 +9,10 @@
   </head>
   <body>
     <% if signed_in? %>
+      <%= link_to "Home", root_path %>
+      <%= link_to 'Add New Board', new_board_path %>
+      <%= link_to 'Subscription', calculate_boards_path %>
+      <%= link_to 'Add users', add_seat_boards_path %>
       <%= link_to "Logout", destroy_user_session_path, method: :delete %>
     <% end %>
     <%= yield %>

@@ -1,6 +1,6 @@
-class SubscriptionsController < ApplicationController
+class SubscriptionsController < HomeController
   before_action :set_subscription, only: [:show, :edit, :update, :destroy]
-
+  skip_before_action :check_user, only: [:new, :create]
   # GET /subscriptions
   # GET /subscriptions.json
   def index

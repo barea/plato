@@ -7,6 +7,10 @@ class Subscription < ApplicationRecord
   validates_presence_of :frequancey
   validates_presence_of :status
 
+  attribute :num_of_board, :integer, default: 0
+  attribute :num_of_seat, :integer, default: 0
+
+
   FREQUENCY = %w(Monthly Annually)
 
   validates :frequancey, :inclusion => {:in => FREQUENCY}

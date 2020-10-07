@@ -27,3 +27,63 @@ th {
   font-weight: bold !important;
   text-align: center;
 }
+
+.board {
+	border-style: solid;
+  padding: 20px 20px;
+}
+
+.board-cards {
+  border-style: solid;
+}
+
+.board-card {
+  border-bottom: solid;
+  padding: 15px 15px;
+  background-color: gray;
+}
+
+.board-name {
+  font-weight: bold;
+  font-size: 20px;
+  background-color: green;
+  display: block;
+  padding: 10px 10px;
+}
+
+.card-name {
+
+}
+
+.task-number {
+
+}
+
+.board-button {
+  float: right;
+}
+
+
+a {
+  background-color: red;
+  color: white;
+  padding: 4px 4px;
+  text-decoration: none;
+  text-transform: uppercase;
+  border-style: solid;
+  border-color: gray;
+  border-radius: 1px;
+  text-decoration: underline;
+}
+
+a:hover {
+  background-color: #555;
+}
+
+a:active {
+  background-color: black;
+}
+
+a:visited {
+  background-color: #ccc;
+}

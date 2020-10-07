@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_06_035703) do
+ActiveRecord::Schema.define(version: 2020_10_07_121706) do
 
   create_table "boards", force: :cascade do |t|
     t.string "name"
@@ -24,6 +24,16 @@ ActiveRecord::Schema.define(version: 2020_10_06_035703) do
     t.string "name"
     t.integer "board_id"
     t.integer "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "invitations", force: :cascade do |t|
+    t.string "code"
+    t.integer "used_by_user_id"
+    t.integer "invited_by_user_id"
+    t.datetime "expire_at"
+    t.integer "orgnization_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -81,7 +91,6 @@ ActiveRecord::Schema.define(version: 2020_10_06_035703) do
     t.integer "organization_id"
     t.string "name"
     t.string "type"
-    t.integer "subscription_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
