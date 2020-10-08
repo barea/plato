@@ -6,7 +6,7 @@ class User < ApplicationRecord
 
   has_many :boards
   has_many :cards
-  has_one :subscription
+  has_many :subscription
   belongs_to :organization, optional: true
 
   def individual?
