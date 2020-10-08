@@ -16,9 +16,9 @@ class User < ApplicationRecord
   def organization?
     type == 'OrgnaizationTenant'
   end
-
+  #select all * from subscription wher(user.id =)
   def active?
-    subscription.present? || organization_id.present?
+    Subscription.where(user_id: id).last.present? || organization_id.present?
   end
 
   def manage_subscription?
