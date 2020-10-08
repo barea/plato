@@ -1,51 +1,37 @@
 class InvitationsController < HomeController
-  before_action :set_invitation, only: [:show, :edit, :update, :destroy]
+  before_action :set_invitation, only: [:destroy]
+  skip_before_action :check_user, only: [:redeem]
 
   # GET /invitations
   # GET /invitations.json
   def index
-    @invitations = Invitation.all
+    @invitations = Invitation.where(organization_id: current_user.organization_id).all
   end
 
-  # GET /invitations/1
-  # GET /invitations/1.json
-  def show
+  def redeem
+    inv = Invitation.validate_code(invitation_code[:code])
+    if inv && current_user.individual?
+      ActiveRecord::Base.transaction do
+        inv.update!(used_by_user_id: current_user.id)
+        current_user.update!(type: 'OrgnaizationTenant', organization_id: inv.organization_id)
+        sub = Subscription.where(organization_id: inv.organization_id).last
+        sub.update!(num_of_seat: sub.num_of_seat+1)
+      end
+      redirect_to boards_path, notice: 'Welcome.'
+    else
+      redirect_to plans_path, notice: 'Invalid Code.'
+    end
   end
 
-  # GET /invitations/new
-  def new
-    @invitation = Invitation.new
-  end
-
-  # GET /invitations/1/edit
-  def edit
-  end
-
-  # POST /invitations
-  # POST /invitations.json
-  def create
+  def generate
+    invitation_params = {invited_by_user_id: current_user.id, organization_id: current_user.organization_id}
     @invitation = Invitation.new(invitation_params)
 
     respond_to do |format|
       if @invitation.save
-        format.html { redirect_to @invitation, notice: 'Invitation was successfully created.' }
-        format.json { render :show, status: :created, location: @invitation }
+        format.html { redirect_to invitations_path, notice: 'Invitation was successfully created.' }
       else
         format.html { render :new }
-        format.json { render json: @invitation.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # PATCH/PUT /invitations/1
-  # PATCH/PUT /invitations/1.json
-  def update
-    respond_to do |format|
-      if @invitation.update(invitation_params)
-        format.html { redirect_to @invitation, notice: 'Invitation was successfully updated.' }
-        format.json { render :show, status: :ok, location: @invitation }
-      else
-        format.html { render :edit }
         format.json { render json: @invitation.errors, status: :unprocessable_entity }
       end
     end
@@ -68,7 +54,7 @@ class InvitationsController < HomeController
   end
 
   # Only allow a list of trusted parameters through.
-  def invitation_params
-    params.require(:invitation).permit(:code, :used_by_user_id, :invited_by_user_id, :expire_at, :orgnization_id)
+  def invitation_code
+    params.require(:invitation).permit(:code)
   end
 end

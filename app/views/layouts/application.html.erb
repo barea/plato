@@ -11,8 +11,12 @@
     <% if signed_in? %>
       <%= link_to "Home", root_path %>
       <%= link_to 'Add New Board', new_board_path %>
-      <%= link_to 'Subscription', calculate_boards_path %>
-      <%= link_to 'Add users', add_seat_boards_path %>
+      <% if current_user.manage_subscription? %>
+        <%= link_to 'Subscription', manage_subscriptions_path %>
+      <% end %>
+      <% if current_user.organization? && current_user.manage_subscription? %>
+        <%=  link_to 'Invitations', invitations_path %>
+      <% end %>
       <%= link_to "Logout", destroy_user_session_path, method: :delete %>
     <% end %>
     <%= yield %>

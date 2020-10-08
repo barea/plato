@@ -1,17 +1,21 @@
 <p id="notice"><%= notice %></p>
 </br>
 </br>
+<h3>My Name: <%= current_user.name %></h3>
+<h3>My Organization: <%= current_user.organization&.name || 'NA' %></h3>
 <h3>My Boards</h3>
-<div>
+<div class="board">
   <% @my_boards.each do |board| %>
     <%= render 'boards_view', board: board %>
   <% end %>
 </div>
 </br>
 </br>
-<h3>Orgnization Boards</h3>
-<div>
-  <% @orgnization_boards&.each do |board| %>
-    <%= render 'boards_view', board: board %>
-  <% end %>
-</div>
+<%if current_user.organization?%>
+  <h3>Organization Boards</h3>
+  <div class="board">
+    <% @organization_boards&.each do |board| %>
+      <%= render 'boards_view', board: board %>
+    <% end %>
+  </div>
+<% end %>

@@ -4,20 +4,25 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
     :recoverable, :rememberable, :validatable, :omniauthable, omniauth_providers: %i[facebook]
 
-  belongs_to :organization, optional: true
   has_many :boards
+  has_many :cards
   has_one :subscription
+  belongs_to :organization, optional: true
 
   def individual?
     type == 'IndividualTenant'
   end
 
-  def orgnaization?
+  def organization?
     type == 'OrgnaizationTenant'
   end
 
   def active?
-    subscription.present? || organization.present?
+    subscription.present? || organization_id.present?
+  end
+
+  def manage_subscription?
+    subscription.present?
   end
 
   def self.from_omniauth(auth)

@@ -4,9 +4,8 @@ class BoardsController < HomeController
   # GET /boards.json
   def index
     @my_boards = current_user.boards
-    @orgnization_boards = current_user.organization&.boards
+    @organization_boards = current_user.organization&.boards
   end
-
   # GET /boards/new
   def new
     @board = Board.new
@@ -16,38 +15,6 @@ class BoardsController < HomeController
 
   end
 
-  def add_seat
-    #   @user = OrgnaizationTenant.new(user_params)
-    #   @user.organization_id = current_user.organization_id
-    #   @user.save!
-    #   subscription = current_user.subscription
-    #   Subscription.update(subscription.id, num_of_seat: subscription.num_of_seat + 1)
-  end
-
-  def calculate
-    subscription = current_user.subscription
-    puts subscription.inspect
-    unless subscription.plan.require_org?
-      x = subscription.num_of_board * subscription.plan.monthly_board_price
-      @total = x
-
-    else
-      if subscription.num_of_seat > subscription.plan.licence_seats_num
-        x = subscription.num_of_seat - subscription.plan.licence_seats_num
-        puts x.inspect
-        y = x * subscription.plan.monthly_seat_price
-      else
-        y = 0
-      end
-
-      if subscription.frequancey == 'monthly'
-        @total = subscription.plan.monthly_licence_price + y
-      else
-        @total = subscription.plan.annual_licence_price + y
-      end
-    end
-  end
-
   # POST /boards
   # POST /boards.json
   def create
@@ -55,11 +22,8 @@ class BoardsController < HomeController
     @board.user_id = current_user.id
     @board.organization_id = current_user.organization_id
     # update subscription
-    subscription = current_user.subscription
-    unless subscription.plan.require_org?
-      Subscription.update(subscription.id, num_of_board: subscription.num_of_board + 1)
-    end
-
+    subscription = current_user.subscription || current_user.organization.subscription
+    Subscription.update(subscription.id, num_of_board: subscription.num_of_board + 1)
     respond_to do |format|
       if @board.save
         format.html { redirect_to root_path, notice: 'Board was successfully created.' }

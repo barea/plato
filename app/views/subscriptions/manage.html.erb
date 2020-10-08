@@ -1,0 +1,18 @@
+<p id="notice"><%= notice %></p>
+<h1>Subscription</h1>
+<p>
+  <strong>Plan Name:</strong>
+  <td><%= @subscription.plan.name %></td>
+</p>
+<p>
+  <strong>Frequency:</strong>
+  <td><%= @subscription.frequancey %></td>
+</p>
+<p>
+  <strong>Subscription Status:</strong>
+  <td><%= @subscription.status %></td>
+</p>
+<p>
+  <strong>Next Bill Charge Amount:</strong>
+  <td><%= '$' + @subscription.current_bill_fees.to_s %></td>
+</p>

@@ -13,11 +13,11 @@
     <%= form.hidden_field :plan_id, value: @plan.id %>
     <%= form.hidden_field :plan_require_org, value: @plan.require_org %>
   </div>
-  <div class="field">
-    <%= form.label :billing_frequancey %>
-    <%= form.select :frequancey, Subscription::FREQUENCY, :prompt => 'Select One' %>
-  </div>
   <% if @plan.require_org %>
+    <div class="field">
+      <%= form.label :billing_frequancey %>
+      <%= form.select :frequancey, Subscription::FREQUENCY, :prompt => 'Select One' %>
+    </div>
     <div class="field">
       <%= form.label :organization %>
       <%= form.text_field :org_name %>

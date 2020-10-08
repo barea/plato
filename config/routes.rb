@@ -1,18 +1,20 @@
 Rails.application.routes.draw do
-  resources :invitations
+  resources :invitations do
+    collection do
+      get :generate
+      post :redeem
+    end
+  end
   resources :tenants
-  resources :subscriptions
+  resources :subscriptions do
+    collection do
+      get :manage
+    end
+  end
   resources :plans
   resources :tasks
   resources :cards
-  resources :boards do
-    collection do
-      get :calculate
-    end
-    collection do
-      get :add_seat
-    end
-  end
+  resources :boards
   resources :organizations
   devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks', registrations: 'users/registrations'}
 

@@ -1,19 +1,11 @@
 class SubscriptionsController < HomeController
   before_action :set_subscription, only: [:show, :edit, :update, :destroy]
   skip_before_action :check_user, only: [:new, :create]
-  # GET /subscriptions
-  # GET /subscriptions.json
-  def index
-    @subscriptions = Subscription.all
+  before_action :user_manage_subscription, only: [:manage]
+
+  def manage
+    @subscription = current_user.subscription
   end
-
-  # GET /subscriptions/1
-  # GET /subscriptions/1.json
-  def show
-  end
-
-
-
 
   # GET /subscriptions/new
   def new
@@ -21,17 +13,17 @@ class SubscriptionsController < HomeController
     @plan = Plan.find(params[:plan_id])
   end
 
-  # GET /subscriptions/1/edit
-  def edit
-  end
-
-
-
   # POST /subscriptions
   # POST /subscriptions.json
   def create
     @subscription = Subscription.new(subscription_params)
-    current_user.update(type: 'OrgnaizationTenant', organization_id: Organization.create(name: org_name).id) if require_org?
+    if require_org?
+      org = Organization.create(name: org_name)
+      current_user.update!(type: 'OrgnaizationTenant', organization_id: org.id)
+      @subscription.organization_id = org.id
+    else
+      @subscription.frequancey = 'Monthly'
+    end
     @subscription.user_id = current_user.id
     @subscription.status = 'active'
 
@@ -46,29 +38,6 @@ class SubscriptionsController < HomeController
     end
   end
 
-  # PATCH/PUT /subscriptions/1
-  # PATCH/PUT /subscriptions/1.json
-  def update
-    respond_to do |format|
-      if @subscription.update(subscription_params)
-        format.html { redirect_to @subscription, notice: 'Subscription was successfully updated.' }
-        format.json { render :show, status: :ok, location: @subscription }
-      else
-        format.html { render :edit }
-        format.json { render json: @subscription.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /subscriptions/1
-  # DELETE /subscriptions/1.json
-  def destroy
-    @subscription.destroy
-    respond_to do |format|
-      format.html { redirect_to subscriptions_url, notice: 'Subscription was successfully destroyed.' }
-      format.json { head :no_content }
-    end
-  end
 
   private
   # Use callbacks to share common setup or constraints between actions.
@@ -89,5 +58,8 @@ class SubscriptionsController < HomeController
     params.require(:subscription).permit(:org_name)[:org_name]
   end
 
+  def user_manage_subscription
+    raise "Operation Not Allowed" unless current_user.manage_subscription?
+  end
 
 end

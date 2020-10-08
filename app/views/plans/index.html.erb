@@ -28,3 +28,16 @@
     <% end %>
   </tbody>
 </table>
+<center>
+  <h1>OR</h1>
+  <h4>Enter your invitation Code</h4>
+  <%= form_for :invitation, url:{:controller=>'invitations', :action=>'redeem'} do |form| %>
+    <div class="field">
+      <%= form.label :code %>
+      <%= form.text_field :code %>
+    </div>
+    <div class="actions">
+      <%= form.submit %>
+    </div>
+  <% end %>
+</center>

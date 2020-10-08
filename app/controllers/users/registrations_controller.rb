@@ -25,6 +25,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys: %i[type])
+    devise_parameter_sanitizer.permit(:sign_up, keys: %i[name])
   end
 
   # GET /resource/edit
