@@ -6,7 +6,7 @@ class User < ApplicationRecord
 
   has_many :boards
   has_many :cards
-  has_many :subscription
+  has_one :subscription
   belongs_to :organization, optional: true
 
   def individual?
@@ -16,9 +16,9 @@ class User < ApplicationRecord
   def organization?
     type == 'OrgnaizationTenant'
   end
-  #select all * from subscription wher(user.id =)
+
   def active?
-    Subscription.where(user_id: id).last.present? || organization_id.present?
+    subscription.present? || organization_id.present?
   end
 
   def manage_subscription?
