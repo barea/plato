@@ -1,6 +1,7 @@
 require 'securerandom'
 class Invitation < ApplicationRecord
   before_save :generate_code
+  belongs_to :organization
 
   validates_presence_of :invited_by_user_id, :organization_id
 
