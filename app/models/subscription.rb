@@ -31,7 +31,16 @@ class Subscription < ApplicationRecord
   end
 
   def addon_cost
-    (plan.monthly_seat_price * (num_of_seat-plan.licence_seats_num).non_negative) + (plan.monthly_board_price * (num_of_board-plan.licence_boards_num).non_negative)
+    # calculate the extra seats (number of users) added to the subscription.
+    # This is the numbr of addtional users addedd on top of the allowed number for the purchsed licence
+    # if no extra users then the value will be zero (call non_negative to convert negative value to zero)
+    extra_seats = (num_of_seat - plan.licence_seats_num).non_negative
+    # calculate the extra boards (number of users) added to the subscription.
+    # This is the numbr of addtional boards addedd on top of the allowed number for the purchsed licence
+    # if no extra boards then the value will be zero (call non_negative to convert negative value to zero)
+    extra_boards = (num_of_board - plan.licence_boards_num).non_negative
+    # if the plan allow unlimited number of boards or seats then the price has to be entred as zero so it doesn't count in the bill
+    (plan.monthly_seat_price * extra_seats) + (plan.monthly_board_price * extra_boards)
   end
 
 end
