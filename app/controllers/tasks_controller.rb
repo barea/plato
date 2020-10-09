@@ -69,6 +69,6 @@ class TasksController < HomeController
 
   # Only allow a list of trusted parameters through.
   def task_params
-    params.require(:task).permit(:text, :card_id, :status)
+    params.require(:task).permit(:text, :card_id, :completed)
   end
 end

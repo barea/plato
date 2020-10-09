@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_08_025929) do
+ActiveRecord::Schema.define(version: 2020_10_09_065937) do
 
   create_table "boards", force: :cascade do |t|
     t.string "name"
@@ -74,7 +74,7 @@ ActiveRecord::Schema.define(version: 2020_10_08_025929) do
   create_table "tasks", force: :cascade do |t|
     t.text "text"
     t.integer "card_id"
-    t.boolean "status"
+    t.boolean "completed"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
